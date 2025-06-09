@@ -75,33 +75,60 @@ int stackDestroy(PtStack *ptStack) {
     return STACK_OK;
 }
 
+//Inserir nó no inicio da lista, após header.
+//Eficiente
 int stackPush(PtStack stack, StackElem elem) {
     if (stack == NULL) return STACK_NULL;
-    
-    // TODO
+
+    PtNode newNode = (PtNode)malloc(sizeof(Node));
+    if (newNode == NULL) return STACK_NO_MEMORY;
+
+    newNode->element = elem;
+
+    newNode->next = stack->header->next;
+    newNode->prev = stack->header;
+
+    stack->header->next->prev = newNode;
+    stack->header->next = newNode;
+
+    stack->size++;
 
     return STACK_OK;
 }
 
+//Remover o nó do inicio da lista, após header e devolver o elemento
+//Eficiente
 int stackPop(PtStack stack, StackElem *ptElem) {
     if (stack == NULL) return STACK_NULL;
-
+    
     if (stack->size == 0) return STACK_EMPTY;
 
-    // TODO
+    PtNode nodeToRemove = stack->header->next;
+
+    *ptElem = nodeToRemove->element;
+
+    stack->header->next = nodeToRemove->next;
+    nodeToRemove->next->prev = stack->header;
+
+    free(nodeToRemove);
+
+    stack->size--;
 
     return STACK_OK;
 }
 
+//Devolver o elemento no topo da stack
+//Eficiente
 int stackPeek(PtStack stack, StackElem *ptElem) {
     if (stack == NULL) return STACK_NULL;
-
+    
     if (stack->size == 0) return STACK_EMPTY;
 
-    // TODO
+    *ptElem = stack->header->next->element;
 
     return STACK_OK;
 }
+
 
 int stackSize(PtStack stack, int *ptSize) {
     if (stack == NULL) return STACK_NULL;
@@ -134,6 +161,8 @@ int stackClear(PtStack stack) {
     return STACK_OK;
 }
 
+//Percorre todos os nós e imprime-os
+//O(n) 
 void stackPrint(PtStack stack) {
     if (stack == NULL) {
         printf("(Stack NULL)");
@@ -144,7 +173,12 @@ void stackPrint(PtStack stack) {
     else {
         printf("Stack contents (top to bottom): \n");
         
-        // TODO -> use `stackElemPrint`
+        PtNode current = stack->header->next;
+        while (current != stack->trailer) {
+            stackElemPrint(current->element);
+            printf("\n");
+            current = current->next;
+        }
 
         printf("--- bottom --- \n");
     }

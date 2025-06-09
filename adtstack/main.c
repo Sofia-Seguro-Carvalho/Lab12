@@ -97,3 +97,17 @@ void testStress(PtStack stack) {
     
     printf("-- Time taken: %lf seconds \n", cpu_time_used);
 }
+
+/**
+Operação	Array List	Linked List
+create	 	 O(1)           O(1)
+destroy	 	 O(1)           O(n)
+size	 	 O(1)           O(1)
+isEmpty	 	 O(1)           O(1)
+clear	 	 O(1)           O(1)
+push	 	 O(1)           O(1)
+pop	 	     O(1)           O(1)
+peek	 	 O(1)           O(1)
+print	 	 O(n)           O(n)
+Tempo exec.? 0.001046	 	0.000244
+*/
